@@ -1,0 +1,13 @@
+{
+  "updated_at": "2026-11-02T01:16:49Z",
+  "channels": 501,
+  "channels_live": 292,
+  "sources_total": 5,
+  "sources_ok": 5,
+  "links_tested": 503,
+  "links_live": 294,
+  "links_dead": 209,
+  "links_untested": 0,
+  "strict_filter": false,
+  "elapsed_seconds": 103.4
+}
