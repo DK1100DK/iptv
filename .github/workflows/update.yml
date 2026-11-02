@@ -2,8 +2,8 @@ name: IPTV 自动更新
 
 on:
   schedule:
-    # 每 2 小时整点执行（UTC）。如需北京时间对齐，cron 用的是 UTC，2 小时一次不受影响。
-    - cron: "0 */2 * * *"
+    # 每 4 小时整点执行（UTC）。cron 用 UTC，4 小时一次不受时区影响。
+    - cron: "0 */4 * * *"
   workflow_dispatch: {}
   push:
     branches: [main]
