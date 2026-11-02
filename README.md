@@ -1,7 +1,7 @@
 # IPTV 直播源自动更新工具
 
 自动采集公开直播源 → 逐个测活 → 生成 TVBox 可用的订阅链接。
-定时任务跑在 **GitHub Actions** 上，**每 2 小时自动更新一次**，不需要你的电脑开机，也不需要服务器。
+定时任务跑在 **GitHub Actions** 上，**每 4 小时自动更新一次**，不需要你的电脑开机，也不需要服务器。
 
 ## 最终你要用到的链接
 
@@ -24,7 +24,7 @@
 
 ```
 IPTV/
-├── .github/workflows/update.yml   # 每 2 小时自动测活并更新
+├── .github/workflows/update.yml   # 每 4 小时自动测活并更新
 ├── config/sources.txt             # 上游直播源（可自己增删）
 ├── config/channels.txt            # 频道白名单（留空=全部输出）
 ├── config/config.json             # 参数：超时、并发、每组上限、分组排序
@@ -69,7 +69,7 @@ python tools/init_repo.py
 ### 3. 开启 Actions 与 Pages
 - 仓库 → **Settings** → **Actions** → General → Workflow permissions 选 **Read and write permissions**（否则无法回写文件）。
 - 首次进 **Actions** 页面点 **I understand my workflows, go ahead and enable them**。
-- 推送后会自动跑第一轮；之后每 2 小时（UTC 整点 0/2/4…）自动跑一次。也可以在 Actions 里选 “IPTV 自动更新” → **Run workflow** 手动立即更新。
+- 推送后会自动跑第一轮；之后每 4 小时（UTC 整点 0/4/8…）自动跑一次。也可以在 Actions 里选 “IPTV 自动更新” → **Run workflow** 手动立即更新。
 - （可选）Settings → Pages → Source 选 `Deploy from a branch`，Branch 选 `main` + `/docs` → Save，获得 Pages 镜像链接。
 
 ## 自己的电视想只保留部分频道
@@ -101,5 +101,5 @@ python tools/init_repo.py
 ## 说明与免责
 
 - 本工具只做「链接聚合 + 连通性测试」，本身不存储任何视频内容。上游源来自 GitHub 开源项目（iptv-org、YanG-1989/m3u 等）与公开分享地址，版权归原作者所有，仅供个人学习使用。
-- 公开直播源本身会失效，这是这个领域的常态；本工具的作用是**每 2 小时把不能用的自动挑出去**，而不是保证永远不失效。
+- 公开直播源本身会失效，这是这个领域的常态；本工具的作用是**每 4 小时把不能用的自动挑出去**，而不是保证永远不失效。
 - 云端测活是「服务器视角」，电视在家庭宽带的实际播放体验可能略有色差；如果某些频道云端通过、电视打不开，切一条线路或降低 `max_per_channel` 通常能改善。
