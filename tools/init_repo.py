@@ -116,7 +116,7 @@ def main():
     if st == 404:
         st2, created = api("POST", "/user/repos", {
             "name": REPO,
-            "description": "IPTV 直播源自动采集 + 每2小时测活更新，输出 TVBox 订阅链接",
+            "description": "IPTV 直播源自动采集 + 每4小时测活更新，输出 TVBox 订阅链接",
             "private": False,
             "auto_init": True,
         }, token=token)
