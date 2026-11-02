@@ -1,25 +1,23 @@
 央视,#genre#
 CCTV1综合,http://175.160.196.43:1234/608807420
 CCTV2财经,http://175.160.196.43:1234/631780532
-CCTV3,http://222.169.85.8:9901/tsfile/live/0003_1.m3u8?key=txiptv&playlive=1&authid=0#http://175.160.196.43:1234/624878271
+CCTV3综艺,http://222.169.85.8:9901/tsfile/live/0003_1.m3u8?key=txiptv&playlive=1&authid=0#http://175.160.196.43:1234/624878271
 CCTV4中文国际,http://175.160.196.43:1234/631780421
 CCTV4欧洲,http://175.160.196.43:1234/608807419
 CCTV4美洲,http://175.160.196.43:1234/608807416
-CCTV5+,http://223.78.65.165:9901/tsfile/live/0006_1.m3u8?key=txiptv&playlive=1&authid=0
 CCTV5+体育赛事,http://175.160.196.43:1234/641886773
 CCTV5体育,http://175.160.196.43:1234/641886683
 CCTV6电影,http://175.160.196.43:1234/624878396
 CCTV7国防军事,http://175.160.196.43:1234/673168121
-CCTV8,http://124.165.251.82:85/tsfile/live/0008_1.m3u8?key=txiptv&playlive=1&authid=0#http://175.160.196.43:1234/624878356
+CCTV8电视剧,http://124.165.251.82:85/tsfile/live/0008_1.m3u8?key=txiptv&playlive=1&authid=0#http://175.160.196.43:1234/624878356
 CCTV9纪录,http://175.160.196.43:1234/673168140
 CCTV10科教,http://175.160.196.43:1234/624878405
 CCTV11戏曲,http://175.160.196.43:1234/667987558
-CCTV12,http://124.165.251.82:85/tsfile/live/0012_1.m3u8?key=txiptv&playlive=1&authid=0#http://175.160.196.43:1234/673168185
-CCTV13,http://ali-m-l.cztv.com/channels/lantian/channel21/1080p.m3u8#http://175.160.196.43:1234/608807423
+CCTV12社会与法,http://124.165.251.82:85/tsfile/live/0012_1.m3u8?key=txiptv&playlive=1&authid=0#http://175.160.196.43:1234/673168185
+CCTV13新闻,http://ali-m-l.cztv.com/channels/lantian/channel21/1080p.m3u8#http://175.160.196.43:1234/608807423
 CCTV14少儿,http://175.160.196.43:1234/624878440
 CCTV15音乐,http://175.160.196.43:1234/673168223
 CCTV17农业农村,http://175.160.196.43:1234/673168256
-CCTV20241,https://p2.bdstatic.com/rtmp.liveshow.lss-user.baidubce.com/live/stream_bduid_6488563992_8982723413/merged_1707497046297_88536_25144_41936.m3u8
 CCTV+ 1 (600p) [Not 24/7],https://cd-live-stream.news.cctvplus.com/live/smil:CHANNEL1.smil/playlist.m3u8
 CCTV+ 2 (600p) [Not 24/7],https://cd-live-stream.news.cctvplus.com/live/smil:CHANNEL2.smil/playlist.m3u8
 CCTV-1 (720p),http://74.91.26.218:82/live/cctv1hd.m3u8
@@ -64,11 +62,8 @@ CGTN,https://0472.org/hls/cgtn.m3u8#http://175.160.196.43:1234/609017205
 CGTN俄语,http://175.160.196.43:1234/609006446
 CGTN外语纪录,http://175.160.196.43:1234/609006487
 CGTN法语,http://175.160.196.43:1234/609006476
-CGTN纪录,https://0472.org/hls/cgtnd.m3u8
 CGTN西班牙语,http://175.160.196.43:1234/609006450
-CGTN西语,https://0472.org/hls/cgtnx.m3u8
 CGTN阿拉伯语,http://175.160.196.43:1234/609154345
-CGTN阿语,https://0472.org/hls/cgtna.m3u8
 WTT 孙颖莎4-1蒯曼夺冠 张禹珍逆转登顶 全场回放（CCTV5） 00:30,http://175.160.196.43:1234/969014468
 WTT 孙颖莎锁定决赛席 蒯曼4-2陈熠 全场回放（CCTV5） 18:00,http://175.160.196.43:1234/969012093
 卫视,#genre#
@@ -128,30 +123,20 @@ Zhejiang Satellite TV (1080p),http://39.134.115.163:8080/PLTV/88888910/224/32212
 三沙卫视,http://175.160.196.43:1234/961023778
 东南卫视,http://live.zohi.tv/video/s10001-fztv-3/index.m3u8#http://175.160.196.43:1234/849116810
 东方卫视,http://bp-resource-dfl.bestv.cn/155/3/video.m3u8#http://175.160.196.43:1234/651632648
-东方卫视4K,https://bp-resource-dfl.bestv.cn/148/3/video.m3u8
 中国农林卫视,http://175.160.196.43:1234/956904896
 兵团卫视,http://175.160.196.43:1234/956923145
-内蒙古卫视,http://play1-qk.nmtv.cn/live/1769652018126032.m3u8
 北京卫视,http://175.160.196.43:1234/630287636
 吉林卫视,http://175.160.196.43:1234/947472500
 大湾区卫视,http://222.128.55.152:9080/live/dwq.m3u8#http://175.160.196.43:1234/608917627
-天津卫视,http://222.169.85.8:9901/tsfile/live/0135_1.m3u8?key=txiptv&playlive=1&authid=0
 宁夏卫视,http://175.160.196.43:1234/738910535
-安多卫视,https://liveout.xntv.tv/a65jur/96iln2.m3u8
-山西卫视,http://119.39.9.8:9901/tsfile/live/0118_1.m3u8
 广东卫视,https://txmov2.a.kwimgs.com/upic/2023/01/26/09/BMjAyMzAxMjYwOTE3NDVfNzM5MzQzNzIyXzk0NjI1OTUwNTA3XzBfMw==_b_B81ddda927d33445d544befd008e60109.mp4#http://175.160.196.43:1234/608831231
-延边卫视,https://srs.iyb983.cn/video/CYS/index.m3u8
-新疆卫视,http://218.84.12.186:8001/hls/main/playlist.m3u8?zxinjd;http://218.84.12.186:8001/hls/main/playlist.m3u8zxinjd
 江苏卫视,http://175.160.196.43:1234/623899368
 江西卫视,http://112.27.5.218:9901/tsfile/live/faacts/0138_1.m3u8?key=txiptv&playlive=1&authid=0#http://175.160.196.43:1234/783847495
 河北卫视,http://175.160.196.43:1234/962042070
 河南卫视,http://175.160.196.43:1234/790187291
-浙江卫视,https://ali-m-l.cztv.com/channels/lantian/channel001/1080p.m3u8
 海南卫视,http://175.160.196.43:1234/947472502
 海峡卫视,http://175.160.196.43:1234/849119120
 湖北卫视,http://175.160.196.43:1234/947472496
-湖南卫视,http://hlsal-ldvt.qing.mgtv.com/nn_live/nn_x64/dWlwPTEyNy4wLjAuMSZ1aWQ9cWluZy1jbXMmbm5fdGltZXpvbmU9OCZjZG5leF9pZD1hbF9obHNfbGR2dCZ1dWlkPTliODY4NmU5ZTM2YzYwMmMmZT02OTE0NjA0JnY9MSZpZD1ITldTWkdTVCZzPTcwN2RiYTc2YzJjNmJmMTQ4MmUyZGYzOWU2NWM3YWFi/HNWSZGST.m3u8
-西藏卫视,http://112.27.5.218:9901/tsfile/live/0111_1.m3u8?key=txiptv&playlive=1&authid=0
 辽宁卫视,http://175.160.196.43:1234/630291707
 重庆卫视,http://175.160.196.43:1234/738910914
 陕西卫视,http://175.160.196.43:1234/738910838
@@ -160,6 +145,4 @@ Zhejiang Satellite TV (1080p),http://39.134.115.163:8080/PLTV/88888910/224/32212
 港澳台,#genre#
 CHC Action (1080p),http://39.134.19.68/dbiptv.sn.chinamobile.com/PLTV/88888888/224/3221226465/index.m3u8
 TV BRICS Chinese (1080p),https://chibrics.mediacdn.ru/cdn/brics/chinese/playlist.m3u8
-人间卫视,https://5ddce30eb4b55.streamlock.net/bltvhd/bltv1/chunklist_w511254805.m3u8
-纬来体育,https://epg.pw/stream/8855a9936e37e608a0ec8a014cce1673dee9c5d68d560da376cc92e5edef2b25.m3u8
 经典香港电影,http://175.160.196.43:1234/625703337

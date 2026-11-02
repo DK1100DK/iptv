@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-02T06:06:16Z",
-  "channels": 162,
-  "channels_live": 112,
+  "updated_at": "2026-11-02T06:12:06Z",
+  "channels": 145,
+  "channels_live": 43,
   "sources_total": 6,
-  "sources_ok": 6,
-  "links_tested": 172,
-  "links_live": 121,
-  "links_dead": 51,
+  "sources_ok": 5,
+  "links_tested": 145,
+  "links_live": 43,
+  "links_dead": 102,
   "links_untested": 0,
   "strict_filter": false,
-  "elapsed_seconds": 97.3
+  "elapsed_seconds": 116.8
 }
