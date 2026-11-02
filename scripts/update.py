@@ -113,7 +113,7 @@ def http_get(url, timeout, retries=2, max_bytes=None, headers=None):
             if attempt < retries:
                 time.sleep(0.4 * (attempt + 1))
     if last_err:
-        log("请求失败 %s -> %s" % (_short(url), type(last_err).__name__))
+        log("请求失败 %s -> %s" % (_mask(url), type(last_err).__name__))
     return 0, b"", ""
 
 
@@ -179,18 +179,29 @@ def canon_name(display, norm):
 
 # ---------------------------------------------------------------- 分组推断
 
+# 卫星电视频道英文名（iptv-org 等用英文命名），用于归到「卫视」，避免被误删
+SATELLITE_EN = (
+    "hunan|zhejiang|jiangsu|guangdong|beijing|anhui|shandong|henan|hubei|"
+    "sichuan|chongqing|tianjin|liaoning|heilongjiang|jilin|hebei|shanxi|"
+    "innermongolia|guangxi|hainan|guizhou|yunnan|shaanxi|gansu|qinghai|"
+    "ningxia|xinjiang|xiamen|dragon|travel|southern|bingtuan|yanbian|sansha"
+)
+
+# 央视/国家台英文名
+CCTV_EN = r"cctv|cgtn|cetv|中国环球|环球电视|中央"
+
 GROUP_RULES = [
-    ("央视", re.compile(r"cctv|中央|央视|coctv")),
+    ("央视", re.compile(CCTV_EN)),
+    ("港澳台", re.compile(r"tvb|翡翠|無線|无綫|now|台视|中视|华视|公视|凤凰|星空|港台|澳门|香港|台湾|纬来|东森|中天|壹新闻|victoriaone|hkopen|fairchild|setlive|ettv|cti|mod|年代|人间卫视|tvbs")),
+    ("卫视", re.compile(r"卫视|" + SATELLITE_EN, re.I)),
     ("体育", re.compile(r"体育|赛事|cctv\+|劲爆|足球|篮球|olympic|espn|skymainevent")),
-    ("港澳台", re.compile(r"tvb|翡翠|無線|无綫|now|台视|中视|华视|公视|凤凰|星空|港台|澳门|香港|台湾|纬来|东森|中天|壹新闻")),
-    ("卫视", re.compile(r"卫视|南方卫视|华语卫星")),
-    ("地方", re.compile(r"北京|上海|广东|江苏|浙江|安徽|山东|河南|湖北|湖南|四川|重庆|天津|南京|杭州|广州|深圳|武汉|成都|合肥|青岛|厦门|东方|live")),
+    ("地方", re.compile(r"北京|上海|广东|江苏|浙江|安徽|山东|河南|湖北|湖南|四川|重庆|天津|南京|杭州|广州|深圳|武汉|成都|合肥|青岛|东方|live|省电视台|市电视台")),
     ("纪实", re.compile(r"纪实|纪录|探索|discovery|地理|历史|动物|planet")),
     ("电影", re.compile(r"电影|cinema|movie|hdlive")),
     ("动漫", re.compile(r"动漫|卡通|动画|toon|anime|cartoon")),
     ("少儿", re.compile(r"少儿|宝贝|kid|baby|smart")),
     ("新闻", re.compile(r"新闻|资讯|bbc|cnn|fox|nhk|cnbc")),
-    ("音乐", re.compile(r"音乐|mv|mtv|channel[v]|全球音乐")),
+    ("音乐", re.compile(r"音乐|mv|mtv|channel\[v\]|全球音乐")),
 ]
 
 
@@ -254,12 +265,14 @@ def clean_group(raw):
 
 
 def guess_group(display, norm, raw_group):
-    g = clean_group(raw_group)
-    if g:
-        return g
+    """先按频道名判定（台名最可靠），上游标签只作兜底。
+    上游常把 湖南卫视 标成 General / News，若先信标签会把该留的台误删。"""
     for name, pat in GROUP_RULES:
         if pat.search(norm) or pat.search(display.lower()):
             return name
+    g = clean_group(raw_group)
+    if g:
+        return g
     return "其他"
 
 
@@ -351,6 +364,51 @@ def parse_content(text, source):
     return parse_txt(text, source)
 
 
+# ---------------------------------------------------------------- 内置源（不出现在任何可读界面/公开日志中）
+
+# 频道列表内置来源：仅存在于此代码内，README、网页、日志均不显示其地址
+HIDDEN_SOURCES = [
+    "https://my9.ltd/tvsh/list.php?s=175.160.196.43%3A1234&isp=%E8%BE%BD%E5%AE%81%E8%81%94%E9%80%9A&type=migu&download=txt",
+]
+
+# 点播接口：地址来自接口广场筛选后的可用项，仅存在于代码，由脚本注入 tvbox.json
+VOD_SITES = [
+    ("小马影视", "https://szyyds.cn/tv/x.json"),
+    ("香雅情", "https://gh-proxy.org/https:/raw.githubusercontent.com/xyq254245/xyqonlinerule/main/XYQTVBox.json"),
+    ("dxawi", "https://dxawi.github.io/0/0.json"),
+    ("挺好分享", "http://ztha.top/TVBox/thdjk.json"),
+]
+
+
+def build_tvbox(owner, repo, branch):
+    """生成 tvbox.json：lives 指向自家仓库线路，sites 用代码内置点播接口"""
+    raw = "https://raw.githubusercontent.com/%s/%s/%s" % (owner, repo, branch)
+    jsd = "https://cdn.jsdelivr.net/gh/%s/%s@%s" % (owner, repo, branch)
+    pages = "https://%s.github.io/%s" % (owner.lower(), repo)
+    cfg = {
+        "name": "IPTV 自动更新直播源",
+        "lives": [
+            {"name": "线路1-raw 直连", "type": 0, "url": raw + "/docs/iptv.m3u"},
+            {"name": "线路2-jsDelivr CDN", "type": 0, "url": jsd + "/docs/iptv.m3u"},
+            {"name": "线路3-GitHub Pages", "type": 0, "url": pages + "/iptv.m3u"},
+        ],
+        "sites": [{"key": "vod%d" % i, "name": nm, "type": 1, "api": u,
+                   "searchable": 1, "quickSearch": 1, "filterable": 1}
+                  for i, (nm, u) in enumerate(VOD_SITES)],
+        "spider": "", "wallpaper": "", "hosts": [], "parses": [],
+    }
+    return json.dumps(cfg, ensure_ascii=False, indent=2)
+
+
+
+def _mask(url):
+    """日志脱敏：内置源不打印真实地址，避免在公开 Actions 日志中暴露"""
+    for h in HIDDEN_SOURCES:
+        if url == h or url.startswith(h[:24]):
+            return "[内置直播源]"
+    return _short(url)
+
+
 # ---------------------------------------------------------------- 采集
 
 HEADERS = {"ua": "Mozilla/5.0"}
@@ -369,7 +427,7 @@ def fetch_source(url, timeout):
         except UnicodeDecodeError:
             text = body.decode("latin-1")
     items = parse_content(text, url)
-    log("  %-58s -> %d 条" % (_short(url), len(items)))
+    log("  %-40s -> %d 条" % (_mask(url), len(items)))
     return items
 
 
@@ -601,6 +659,7 @@ def main():
     cfg.setdefault("cache_hours", 48)
     cfg.setdefault("keep_untested", True)
     cfg.setdefault("group_priority", [])
+    cfg.setdefault("group_whitelist", [])
     cfg.setdefault("user_agent", HEADERS["ua"])
     CONFIG = cfg
     HEADERS["ua"] = cfg["user_agent"]
@@ -610,10 +669,13 @@ def main():
     t_start = time.time()
     now_iso = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
-    # 1) 采集
+    # 1) 采集（内置直播源只存在于代码中，不写入 config/sources.txt，避免出现在可读文件里）
     src_path = os.path.join(ROOT, cfg["sources_file"])
     sources = [ln.strip() for ln in read_text(src_path).splitlines()
                if ln.strip() and not ln.strip().startswith("#")]
+    for hs in HIDDEN_SOURCES:
+        if hs not in sources:
+            sources.append(hs)
     log("上游源 %d 个，开始采集" % len(sources))
     raw_items = []
     fetch_timeout = max(12, cfg["timeout_seconds"] * 3)
@@ -633,6 +695,21 @@ def main():
         log("白名单生效：%d 个频道" % len(whitelist))
     channels = dedupe_and_merge(raw_items, whitelist)
     log("去重合并后 %d 个频道" % len(channels))
+
+    # 2.5) 分组白名单过滤：合并后频道名可能已收敛，重算分组再过滤
+    gwl = [g for g in (cfg.get("group_whitelist") or []) if g]
+    if gwl:
+        dropped = 0
+        for key, ch in list(channels.items()):
+            grp = guess_group(ch["display"], norm_name(ch["display"]), "")
+            ch["group"] = grp
+            if grp not in gwl:
+                del channels[key]
+                dropped += 1
+        log("分组白名单 %s：保留 %d 个频道，剔除 %d 个" % ("/".join(gwl), len(channels), dropped))
+        if not channels:
+            log("!! 分组过滤后频道为空，请检查分组识别规则")
+            return 1
 
     # 3) 测活
     cache = load_cache(os.path.join(ROOT, cfg["cache_file"]), cfg["cache_hours"])
@@ -747,6 +824,15 @@ def main():
         save_cache(os.path.join(ROOT, cfg["cache_file"]), new_cache)
     else:
         log("--quick 模式：不更新历史缓存")
+    # 重新生成 tvbox.json（点播接口来自代码内置，来源广场网址不落可读文件）
+    gh = os.environ.get("GITHUB_REPOSITORY", "DK1100DK/iptv")
+    owner, _, repo = gh.partition("/")
+    try:
+        with open(os.path.join(ROOT, "tvbox.json"), "w", encoding="utf-8") as fh:
+            fh.write(build_tvbox(owner, repo, "main"))
+        log("已刷新 tvbox.json（含 %d 个点播接口）" % len(VOD_SITES))
+    except Exception as exc:  # noqa: BLE001
+        log("写 tvbox.json 失败: %s" % exc)
     log("已写入 docs/iptv.m3u, docs/iptv.txt, docs/status.json")
     return 0
 
@@ -766,7 +852,7 @@ td,th{border-bottom:1px solid #eee;padding:6px 8px;text-align:left}</style></hea
 M3U：<a href="iptv.m3u"><code>iptv.m3u</code></a><br>
 TXT：<a href="iptv.txt"><code>iptv.txt</code></a></p>
 <h3>当前收录频道（前 %s 个）</h3><table><tr><th>频道</th><th>分组</th></tr>%s</table>
-<p style="color:#888;font-size:13px;margin-top:24px">每 2 小时由 GitHub Actions 自动测活更新，失效地址自动剔除。</p>
+<p style="color:#888;font-size:13px;margin-top:24px">每 4 小时由 GitHub Actions 自动测活更新，失效地址自动剔除。</p>
 </body></html>""" % (status["updated_at"], status["channels"], status["links_tested"],
                       status["links_live"], status["elapsed_seconds"], len(top), rows)
 
